@@ -1,0 +1,27 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  spin:
+    runs-on: ubuntu-latest
+    name: Build and deploy
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.69
+          targets: wasm32-wasi
+
+      - name: Install Spin
+        uses: fermyon/actions/spin/setup@v1
+      - name: Update Spin.toml
+        run: |
+          sed -i 's/GITHUB_PAT/'${{ secrets.GH_PAT }}'/g' Spin.toml
+      - name: Build and deploy
+        uses: fermyon/actions/spin/deploy@v1
+        with:
+          fermyon_token: ${{ secrets.FERMYON_CLOUD_TOKEN }}
