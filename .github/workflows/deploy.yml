@@ -20,7 +20,7 @@ jobs:
         uses: fermyon/actions/spin/setup@v1
       - name: Update spin.toml
         run: |
-          sed -i 's/GITHUB_PAT/'${{ secrets.GH_PAT }}'/g' spin.toml
+          sed -i 's/$GITHUB_PAT$/'${{ secrets.GH_PAT }}'/g' spin.toml
           cat spin.toml
       - name: Build and deploy
         uses: fermyon/actions/spin/deploy@v1
