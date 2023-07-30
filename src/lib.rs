@@ -47,7 +47,10 @@ fn extract_version(body: &Option<bytes::Bytes>) -> Result<String> {
     match body {
         Some(body) => {
             let json = serde_json::from_slice::<serde_json::Value>(body)?;
-            let version = json["tag_name"].as_str().unwrap_or("unknown");
+            let mut version = json["tag_name"].as_str().unwrap_or("unknown");
+            if version.starts_with('v') {
+                version = &version[1..].trim();
+            }
             Ok(version.to_string())
         },
         None => bail!("No body in response")
