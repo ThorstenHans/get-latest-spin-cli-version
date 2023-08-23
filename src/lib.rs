@@ -1,3 +1,5 @@
+#![warn(rust_2018_idioms)]
+
 use anyhow::{Result, bail};
 
 use spin_sdk::{
@@ -49,7 +51,7 @@ fn extract_version(body: &Option<bytes::Bytes>) -> Result<String> {
             let json = serde_json::from_slice::<serde_json::Value>(body)?;
             let mut version = json["tag_name"].as_str().unwrap_or("unknown");
             if version.starts_with('v') {
-                version = &version[1..].trim();
+                version = version[1..].trim();
             }
             Ok(version.to_string())
         },
