@@ -12,7 +12,7 @@ allowed_http_hosts = ["https://api.github.com"]
 [component.config]
 github_token = "#GITHUB_PAT#"
 [component.trigger]
-route = "/version"
+route = "/..."
 [component.build]
 command = "cargo build --target wasm32-wasi --release"
 watch = ["src/**/*.rs", "Cargo.toml"]
