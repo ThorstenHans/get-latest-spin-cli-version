@@ -14,7 +14,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: 1.69
+          toolchain: 1.78.0
           targets: wasm32-wasi
 
       - name: Install Spin
