@@ -1,18 +1,23 @@
-spin_manifest_version = "1"
-authors = ["Thorsten Hans <thorsten.hans@gmail.com>"]
-description = ""
+spin_manifest_version = 2
+
+[application]
 name = "get-latest-spin-cli-version"
-trigger = { type = "http", base = "/" }
+authors = ["Thorsten Hans <thorsten.hans@gmail.com>"]
 version = "0.1.0"
 
-[[component]]
-id = "get-spin-cli-version"
-source = "target/wasm32-wasi/release/get_latest_spin_cli_version.wasm"
-allowed_http_hosts = ["https://api.github.com"]
-[component.config]
-github_token = "#GITHUB_PAT#"
-[component.trigger]
+[application.trigger.http]
+base = "/"
+
+[[trigger.http]]
+id = "trigger-get-spin-cli-version"
+component = "get-spin-cli-version"
 route = "/..."
-[component.build]
+
+[component.get-spin-cli-version]
+source = "target/wasm32-wasi/release/get_latest_spin_cli_version.wasm"
+variables = { github_token = "#GITHUB_PAT#" }
+allowed_outbound_hosts = ["http://api.github.com", "https://api.github.com"]
+
+[component.get-spin-cli-version.build]
 command = "cargo build --target wasm32-wasi --release"
 watch = ["src/**/*.rs", "Cargo.toml"]
